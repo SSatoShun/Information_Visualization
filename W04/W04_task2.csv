@@ -1,5 +1,5 @@
-width,color
-100,black
-50,blue
-80,red
-20,yellow
+width,color,label
+100,black,A
+50,blue,B
+80,red,C
+20,yellow,D
