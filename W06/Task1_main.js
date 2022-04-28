@@ -53,7 +53,7 @@ class ScatterPlot {
             .range( [self.config.margin.top, self.inner_height-self.config.margin.bottom] );
 
         self.xaxis = d3.axisBottom( self.xscale )
-            .ticks(5)//メモリの刻み幅
+            .ticks(6)//メモリの刻み幅
             .tickSize(10)//メモリの棒の長さ
             .tickPadding(8);//軸と数値の間隔
 
