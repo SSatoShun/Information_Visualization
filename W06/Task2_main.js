@@ -7,7 +7,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W06/W06_data.csv")
             parent: '#drawing_region',
             width: 256*2,
             height: 256*2,
-            margin: {top:20, right:10, bottom:20, left:30}
+            margin: {top:30, right:30, bottom:30, left:30}
         };
 
         const scatter_plot = new ScatterPlot( config, data );
