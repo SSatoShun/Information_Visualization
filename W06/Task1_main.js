@@ -7,7 +7,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W06/W06_data.csv")
             parent: '#drawing_region',
             width: 256,
             height: 256,
-            margin: {top:16, right:16, bottom:16, left:16}
+            margin: {top:20, right:20, bottom:20, left:20}
         };
 
         const scatter_plot = new ScatterPlot( config, data );
@@ -53,7 +53,7 @@ class ScatterPlot {
             .range( [self.config.margin.top, self.inner_height-self.config.margin.bottom] );
 
         self.xaxis = d3.axisBottom( self.xscale )
-            .ticks(10)//メモリの刻み幅
+            .ticks(5)//メモリの刻み幅
             .tickSize(10)//メモリの棒の長さ
             .tickPadding(8);//軸と数値の間隔
 
