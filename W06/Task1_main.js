@@ -1,4 +1,4 @@
-d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W04/data.csv")
+d3.csv("https://ssatoshun.github.io/Information_Visualization/W06/W06_data.csv")
     .then( data => {
         //数値変換
         data.forEach( d => { d.x = +d.x; d.y = +d.y; });
