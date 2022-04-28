@@ -7,7 +7,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W06/W06_data.csv")
             parent: '#drawing_region',
             width: 256,
             height: 256,
-            margin: {top:10, right:10, bottom:20, left:25}
+            margin: {top:16, right:16, bottom:16, left:16}
         };
 
         const scatter_plot = new ScatterPlot( config, data );
@@ -47,23 +47,27 @@ class ScatterPlot {
 
         //スケールの調整。g領域のサイズにリシェイプするための変数
         self.xscale = d3.scaleLinear()
-            .range( [0, self.inner_width] );
+            .range( [self.config.margin.left, self.inner_width-self.config.margin.right] );
 
         self.yscale = d3.scaleLinear()
-            .range( [0, self.inner_height] );
+            .range( [self.config.margin.top, self.inner_height-self.config.margin.bottom] );
 
         self.xaxis = d3.axisBottom( self.xscale )
-            .ticks(6);
+            .ticks(10)//メモリの刻み幅
+            .tickSize(10)//メモリの棒の長さ
+            .tickPadding(8);//軸と数値の間隔
 
         self.yaxis = d3.axisLeft( self.yscale )
-            .ticks(6);
+            .ticks(10)
+            .tickSize(10)
+            .tickPadding(8);
 
         //g領域の中にさらにg領域を作成し、グラフの下に表示されるように平行移動している
         self.xaxis_group = self.chart.append('g')
-            .attr('transform', `translate(0, ${self.inner_height})`);
+            .attr('transform', `translate(0, ${self.inner_height-self.config.margin.top})`);
 
         self.yaxis_group = self.chart.append('g')
-            .attr('transform', `translate(0 ,0)`);
+            .attr('transform', `translate(${self.config.margin.left} ,0)`);
 
     }
 
