@@ -1,21 +1,21 @@
 d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task1_data.csv")
     .then( data => {
-        data.forEach( d => { d.label = d.label; d.value = +d.value; });
+        data.forEach( d => { d.label = d.label; d.value = +d.value; d.color = d.color;});
 
         var config = {
             parent: '#drawing_region',
-            width: 256,
-            height: 256,
-            margin: {top:10, right:10, bottom:20, left:60}
+            width: 256*3/2,
+            height: 256*3/2,
+            margin: {top:30, right:20, bottom:30, left:80}
         };
 
-        const scatter_plot = new BarPlot( config, data );
-        scatter_plot.update();
+        const bar_chart = new BarChart( config, data );
+        bar_chart.update();
     })
     .catch( error => {
         console.log( error );
     });
-class BarPlot {
+class BarChart {
 
       constructor( config, data ) {
           this.config = {
@@ -55,10 +55,19 @@ class BarPlot {
               .tickSizeOuter(0);
   
           self.xaxis_group = self.chart.append('g')
-              .attr('transform', `translate(0, ${self.inner_height})`);
+              .attr('transform', `translate(0, ${self.inner_height-1})`);
 
           self.yaxis_group = self.chart.append('g');
-              //.attr('transform', `translate(0, ${self.inner_width})`);
+        
+          self.svg.append("text")
+            .attr("x",self.inner_width/2)
+            .attr("y",self.config.margin.top-5)
+            .attr("font-size","25px")
+            .attr("fill","black")
+            .attr("stroke","black")
+            .attr("font-weight",20)
+            .attr("stroke-width",1.8)
+            .text("Bar Chart");
       }
   
       update() {
@@ -69,7 +78,7 @@ class BarPlot {
           //const ymin = d3.min( self.data, d => d.y );
           //const ymax = d3.max( self.data, d => d.y );
           self.yscale.domain( self.data.map(d => d.label ))
-          .paddingInner(0.1);
+          .paddingInner(0.3);
 
           self.render();
       }
@@ -84,7 +93,8 @@ class BarPlot {
               .attr("x", 0)
               .attr("y", d => self.yscale( d.label) )
               .attr("width", d => self.xscale(d.value ))
-              .attr("height", self.yscale.bandwidth());
+              .attr("height", self.yscale.bandwidth())
+              .attr("fill",function(d){return d.color;});
 
             //   chart.selectAll("rect").data(data).enter()
             //   .append("rect")
@@ -94,9 +104,26 @@ class BarPlot {
             //   .attr("height", yscale.bandwidth());
   
           self.xaxis_group
-              .call( self.xaxis );
+              .call( self.xaxis )
+              .append("text")
+              .attr("x",self.inner_width/2)
+              .attr("y",self.config.margin.bottom)
+              .attr("font-size", "18px")
+              .text("X-label")
+              .attr("fill","black")
+              .attr("stroke","black")
+              .attr("stroke-width",1);
+
           self.yaxis_group
-              .call( self.yaxis );
+              .call( self.yaxis )
+              .append("text")
+              .attr("x",0)
+              .attr("y",0)
+              .attr("font-size", "18px")
+              .text("Y-label")
+              .attr("fill","black")
+              .attr("stroke","black")
+              .attr("stroke-width",1);
       }
   }
 
