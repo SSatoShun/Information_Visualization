@@ -36,16 +36,16 @@ class BarChart {
               .attr('height', self.config.height);
   
           self.chart = self.svg.append('g')
-              .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
+              .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top-3})`);
   
           self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
           self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
   
-          self.xscale = d3.scaleLinear()
+          self.xscale = d3.scaleBand()
               .range( [0, self.inner_width] );
   
-          self.yscale = d3.scaleBand()
-              .range( [0, self.inner_height] );
+          self.yscale = d3.scaleLinear()
+              .range( [self.inner_height,0] );
   
           self.xaxis = d3.axisBottom( self.xscale )
               .ticks(5)
@@ -55,14 +55,15 @@ class BarChart {
               .tickSizeOuter(0);
   
           self.xaxis_group = self.chart.append('g')
-              .attr('transform', `translate(0, ${self.inner_height-1})`);
+              .attr('transform', `translate(0, ${self.inner_height})`);
 
-          self.yaxis_group = self.chart.append('g');
+          self.yaxis_group = self.chart.append('g')
+              .attr('transform', `translate(-3,0)`);
         
           self.svg.append("text")
             .attr("x",self.inner_width/2)
-            .attr("y",self.config.margin.top-5)
-            .attr("font-size","25px")
+            .attr("y",self.config.margin.top-7)
+            .attr("font-size","24px")
             .attr("fill","black")
             .attr("stroke","black")
             .attr("font-weight",20)
@@ -72,13 +73,13 @@ class BarChart {
   
       update() {
           let self = this;
-          const xmax = d3.max( self.data, d => d.value );
-          self.xscale.domain( [0, xmax] );
-  
-          //const ymin = d3.min( self.data, d => d.y );
-          //const ymax = d3.max( self.data, d => d.y );
-          self.yscale.domain( self.data.map(d => d.label ))
+          self.xscale.domain( self.data.map(d => d.label ))
           .paddingInner(0.3);
+          //self.yscale.domain( self.data.map(d => d.label ))
+          //.paddingInner(0.3);
+
+          const xmax = d3.max( self.data, d => d.value );
+          self.yscale.domain( [0,xmax] );
 
           self.render();
       }
@@ -90,11 +91,35 @@ class BarChart {
               .data(self.data)
               .enter()
               .append("rect")
-              .attr("x", 0)
-              .attr("y", d => self.yscale( d.label) )
-              .attr("width", d => self.xscale(d.value ))
-              .attr("height", self.yscale.bandwidth())
+              .attr("x", d => self.xscale( d.label))
+              .attr("y", d => self.yscale( d.value) )
+              .attr("height", d => self.inner_height-self.yscale(d.value ))
+              .attr("width", self.xscale.bandwidth())
               .attr("fill",function(d){return d.color;});
+
+
+              self.chart.selectAll("text")
+                 .data(self.data)
+                 .enter()
+                 .append("text")
+                 .attr("fill","white")
+                 .text(function(d) {
+                    return d.value;
+                 })
+                 .attr("x", function(d, i) {
+                    return self.xscale( d.label) + self.xscale.bandwidth()/self.data.length;
+                 })
+                 .attr("y", function(d) {
+                    return self.yscale(d.value)+20;
+                 });
+
+        //   self.chart.selectAll("rect")
+        //       .data(self.data)
+        //       .enter()
+        //       .append('text')
+        //       .attr('x',70)
+        //       .attr('y', 70)
+        //       .text(function(d) { return d.value; });
 
             //   chart.selectAll("rect").data(data).enter()
             //   .append("rect")
@@ -110,6 +135,7 @@ class BarChart {
               .attr("y",self.config.margin.bottom)
               .attr("font-size", "18px")
               .text("X-label")
+              .attr("dy",2)
               .attr("fill","black")
               .attr("stroke","black")
               .attr("stroke-width",1);
@@ -117,13 +143,16 @@ class BarChart {
           self.yaxis_group
               .call( self.yaxis )
               .append("text")
-              .attr("x",0)
-              .attr("y",0)
+              .attr("x",-self.config.margin.right-self.inner_height/2)
+              .attr("y",-self.config.margin.left/2)
               .attr("font-size", "18px")
               .text("Y-label")
               .attr("fill","black")
               .attr("stroke","black")
+              .attr('transform', 'rotate(-90)')
+              .attr('text-anchor', 'middle')
               .attr("stroke-width",1);
+
       }
   }
 
