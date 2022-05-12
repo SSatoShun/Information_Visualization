@@ -1,30 +1,21 @@
-d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W04/data.csv")
+d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task1_data.csv")
     .then( data => {
-        data.forEach( d => { d.x = +d.x; d.y = +d.y; });
+        data.forEach( d => { d.label = d.label; d.value = +d.value; });
 
         var config = {
             parent: '#drawing_region',
             width: 256,
-            height: 128,
+            height: 256,
             margin: {top:10, right:10, bottom:20, left:60}
         };
 
-        const scatter_plot = new ScatterPlot( config, data );
+        const scatter_plot = new BarPlot( config, data );
         scatter_plot.update();
     })
     .catch( error => {
         console.log( error );
     });
-
-var data = [
-    {label:'Apple', value:100},
-    {label:'Banana', value:200},
-    {label:'Cookie', value:50},
-    {label:'Doughnut', value:120},
-    {label:'Egg', value:80}
-];
-
-class ScatterPlot {
+class BarPlot {
 
       constructor( config, data ) {
           this.config = {
@@ -53,7 +44,7 @@ class ScatterPlot {
           self.xscale = d3.scaleLinear()
               .range( [0, self.inner_width] );
   
-          self.yscale = d3.scaleLinear()
+          self.yscale = d3.scaleBand()
               .range( [0, self.inner_height] );
   
           self.xaxis = d3.axisBottom( self.xscale )
@@ -72,15 +63,14 @@ class ScatterPlot {
   
       update() {
           let self = this;
+          const xmax = d3.max( self.data, d => d.value );
+          self.xscale.domain( [0, xmax] );
   
-          const xmin = d3.min( self.data, d => d.x );
-          const xmax = d3.max( self.data, d => d.x );
-          self.xscale.domain( [xmin, xmax] );
-  
-          const ymin = d3.min( self.data, d => d.y );
-          const ymax = d3.max( self.data, d => d.y );
-          self.yscale.domain( [ymin, ymax] );
-  
+          //const ymin = d3.min( self.data, d => d.y );
+          //const ymax = d3.max( self.data, d => d.y );
+          self.yscale.domain( self.data.map(d => d.label ))
+          .paddingInner(0.1);
+
           self.render();
       }
   
@@ -93,8 +83,8 @@ class ScatterPlot {
               .append("rect")
               .attr("x", 0)
               .attr("y", d => self.yscale( d.label) )
-              .attr("width", d => d.value )///
-              .attr("height", yscale.bandwidth());
+              .attr("width", d => self.xscale(d.value ))
+              .attr("height", self.yscale.bandwidth());
 
             //   chart.selectAll("rect").data(data).enter()
             //   .append("rect")
@@ -109,14 +99,4 @@ class ScatterPlot {
               .call( self.yaxis );
       }
   }
-
-// Initialize axis scales
-const xscale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)])
-      .range([0, inner_width]);
-
-const yscale = d3.scaleBand()
-      .domain(data.map(d => d.label))
-      .range([0, inner_height])
-      .paddingInner(0.1);
 
