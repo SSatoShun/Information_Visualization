@@ -112,22 +112,7 @@ class BarChart {
                  .attr("y", function(d) {
                     return self.yscale(d.value)+20;
                  });
-
-        //   self.chart.selectAll("rect")
-        //       .data(self.data)
-        //       .enter()
-        //       .append('text')
-        //       .attr('x',70)
-        //       .attr('y', 70)
-        //       .text(function(d) { return d.value; });
-
-            //   chart.selectAll("rect").data(data).enter()
-            //   .append("rect")
-            //   .attr("x", 0)
-            //   .attr("y", d => yscale(d.label))
-            //   .attr("width", d => xscale(d.value))
-            //   .attr("height", yscale.bandwidth());
-  
+                   
           self.xaxis_group
               .call( self.xaxis )
               .append("text")
