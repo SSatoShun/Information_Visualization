@@ -104,6 +104,17 @@ class PieChart {
                   return "translate("+self.arc.centroid(d)+ ")";
                 })
                 .attr("fill","white");
+
+            self.pieChart
+                .append("text")
+                .text(function(d){return d.data.value;})
+                .attr('text-anchor', 'middle')
+                .attr('font-size','14px')
+                .attr("transform", function(d) {
+                  return "translate("+self.arc.centroid(d)+ ")";
+                })
+                .attr("dy",20)
+                .attr("fill","white");
                    
 
       }
