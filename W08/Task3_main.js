@@ -69,7 +69,7 @@ class PieChart {
               .value(d => d.value);
 
           self.arc
-              .innerRadius(20)
+              .innerRadius(40)
               .outerRadius(self.config.radius);
           self.color = d3.scaleOrdinal()
                         .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099"]);
@@ -80,30 +80,30 @@ class PieChart {
       render() {
           let self = this;
 
-          self.chart.selectAll('pie')
+          self.pieChart = self.chart.selectAll('pie')
               .data( self.pie(self.data) )
               .enter()
-              .append('path')
+              .append("g");
+              //.attr("class","pie");
+
+          self.pieChart.append('path')
               .attr('d', self.arc)
-              //.attr('fill', function(d){return self.color(d.index);})
               .attr('stroke', 'white')
               .style('stroke-width', '2px')
-              .style("fill",function(d,i){return d.data.color  ;});
+              .style("fill",function(d,i){return d.data.color  ;})
+              .attr("opacity", 3);
          
 
         
-           self.chart.selectAll("pie")
-                  .data(self.data)
-                  .enter()
-                  .append("text")
-                   .text(function(d) {
-                      return d.label;
-                   })
-                   .attr('text-anchor', 'middle')
-                   .attr("transform", function(d) {
-                      return "translate("+self.arc.centroid(d)+ ")";
-                   })
-                   .attr("fill","white");
+           self.pieChart
+                .append("text")
+                .text(function(d){return d.data.label;})
+                .attr('text-anchor', 'middle')
+                .attr('font-size','14px')
+                .attr("transform", function(d) {
+                  return "translate("+self.arc.centroid(d)+ ")";
+                })
+                .attr("fill","white");
                    
 
       }
