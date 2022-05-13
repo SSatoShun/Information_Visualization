@@ -47,15 +47,15 @@ class PieChart {
           self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
   
         
-        //   self.svg.append("text")
-        //     .attr("x",self.inner_width/2 - self.config.margin.right*2)
-        //     .attr("y",self.config.margin.top-7)
-        //     .attr("font-size","18px")
-        //     .attr("fill","black")
-        //     .attr("stroke","black")
-        //     .attr("font-weight",20)
-        //     .attr("stroke-width",1.6)
-        //     .text("Line Chart with Dots and Area");
+           self.svg.append("text")
+             .attr("x", self.inner_width/2-20)
+             .attr("y",self.inner_height/4)
+             .attr("font-size","24px")
+             .attr("fill","black")
+             .attr("stroke","black")
+             .attr("font-weight",20)
+             .attr("stroke-width",1.6)
+             .text("Pie Chart");
 
           self.pie = d3.pie();
 
@@ -69,7 +69,7 @@ class PieChart {
               .value(d => d.value);
 
           self.arc
-              .innerRadius(40)
+              .innerRadius(30)
               .outerRadius(self.config.radius);
           self.color = d3.scaleOrdinal()
                         .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099"]);
