@@ -10,7 +10,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task1_data
         };
 
         const bar_chart = new BarChart( config, data );
-        bar_chart.update(0);
+        bar_chart.update();
 
         d3.select('#reverse')
             .on('click', d =>{
@@ -33,10 +33,20 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task1_data
                 })
                 bar_chart.update();
             })
+        d3.select('#color0').on('click' ,d=> bar_chart.color_Flag(0))
+        d3.select('#color1').on('click' , d=>bar_chart.color_Flag(1))
+        d3.select('#color2').on('click' , d=>bar_chart.color_Flag(2))
+        d3.select('#color3').on('click' , d=>bar_chart.color_Flag(3))
+        d3.select('#color4').on('click' , d=>bar_chart.color_Flag(4))
+        document.getElementById("all_announce").innerHTML = "You can use two functions!";
+        document.getElementById("sort_announce").innerHTML = "Function 1 : You can sort data!";
+        document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
     })
     .catch( error => {
         console.log( error );
     });
+
+let color_flag =0;
 class BarChart {
 
       constructor( config, data ) {
@@ -93,7 +103,7 @@ class BarChart {
             .text("Bar Chart");
       }
   
-      update(sort_flag) {
+      update() {
           let self = this;
           self.xscale.domain( self.data.map(d => d.label ))
           .paddingInner(0.3);
@@ -103,15 +113,16 @@ class BarChart {
           const xmax = d3.max( self.data, d => d.value );
           self.yscale.domain( [0,xmax] );
 
-          self.render(sort_flag);
+          self.render();
       }
   
-      render(sort_flag) {
+      render() {
           let self = this;
   
           self.chart.selectAll("rect")
               .data(self.data)
               .join("rect")
+              .on("click",self.color)
               .transition().duration(1000)
               .attr("x", d => self.xscale( d.label))
               .attr("y", d => self.yscale( d.value) )
@@ -120,8 +131,6 @@ class BarChart {
               .attr("fill",function(d){return d.color;});
           //
          self.chart.selectAll('#text_value').remove();
-          
-
          self.chart
              .append("g")
              .attr("id","text_value")
@@ -166,5 +175,34 @@ class BarChart {
               .attr("stroke-width",1);
 
       }
+
+      color_Flag(flag){
+        color_flag = flag;
+        if(flag == 0)document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
+        if(flag == 1)document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Black'</font>";
+        if(flag == 2)document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Green'</font>";
+        if(flag == 3)document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Blue'</font>";
+        if(flag == 4)document.getElementById("color_announce").innerHTML = "Function 2 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Purple'</font>";
+      };
+      
+      color(){
+        if(color_flag == 0){
+            d3.select(this).style("fill","red");
+        }
+        if(color_flag == 1){
+            d3.select(this).style("fill","black");
+        }
+        if(color_flag == 2){
+            d3.select(this).style("fill","green");
+        }
+        if(color_flag == 3){
+            d3.select(this).style("fill","blue");
+        }
+        if(color_flag == 4){
+            d3.select(this).style("fill","purple");
+        }
+    }
   }
+
+  
 
