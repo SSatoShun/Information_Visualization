@@ -12,11 +12,21 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task2_data
 
         const scatter_plot = new ScatterPlot( config, data );
         scatter_plot.update();
+
+        d3.select('#color0').on('click' ,d=> scatter_plot.color_Flag(0))
+        d3.select('#color1').on('click' , d=>scatter_plot.color_Flag(1))
+        d3.select('#color2').on('click' , d=>scatter_plot.color_Flag(2))
+        d3.select('#color3').on('click' , d=>scatter_plot.color_Flag(3))
+        d3.select('#color4').on('click' , d=>scatter_plot.color_Flag(4))
+        document.getElementById("all_announce").innerHTML = "You can use two functions!";
+        document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
+
     })
     .catch( error => {
         console.log( error );
     });
 
+let color_flag =0;
 class ScatterPlot {
 
     constructor( config, data ) {
@@ -105,6 +115,7 @@ class ScatterPlot {
             .data(self.data)
             .enter()
             .append("circle")
+            .on("click",self.color)
             .attr("cx", d => self.xscale( d.x ) )
             .attr("cy", d => self.yscale( d.y ) )
             .attr("r", d => d.r )
@@ -156,5 +167,31 @@ class ScatterPlot {
             //.attr("transform","rotate(180,0,self.inner_height/2)")
             .attr("text-orientation","sideways");
             //.attr("writing-mode","vertical-rl");
+    }
+    color_Flag(flag){
+        color_flag = flag;
+        if(flag == 0)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
+        if(flag == 1)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Black'</font>";
+        if(flag == 2)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Green'</font>";
+        if(flag == 3)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Blue'</font>";
+        if(flag == 4)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Purple'</font>";
+      };
+      
+    color(){
+        if(color_flag == 0){
+            d3.select(this).style("fill","red");
+        }
+        if(color_flag == 1){
+            d3.select(this).style("fill","black");
+        }
+        if(color_flag == 2){
+            d3.select(this).style("fill","green");
+        }
+        if(color_flag == 3){
+            d3.select(this).style("fill","blue");
+        }
+        if(color_flag == 4){
+            d3.select(this).style("fill","purple");
+        }
     }
 }
