@@ -10,11 +10,27 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task1_data
         };
 
         const bar_chart = new BarChart( config, data );
-        bar_chart.update();
+        bar_chart.update(0);
 
         d3.select('#reverse')
             .on('click', d =>{
                 data.reverse();
+                bar_chart.update();
+            })
+
+        d3.select('#ascending')
+            .on('click', d =>{
+                data.sort(function(a, b) {
+                    return d3.ascending(a.value, b.value)
+                })
+                bar_chart.update();
+            })
+        
+        d3.select('#descending')
+            .on('click', d =>{
+                data.sort(function(a, b) {
+                    return d3.descending(a.value, b.value)
+                })
                 bar_chart.update();
             })
     })
@@ -77,7 +93,7 @@ class BarChart {
             .text("Bar Chart");
       }
   
-      update() {
+      update(sort_flag) {
           let self = this;
           self.xscale.domain( self.data.map(d => d.label ))
           .paddingInner(0.3);
@@ -87,10 +103,10 @@ class BarChart {
           const xmax = d3.max( self.data, d => d.value );
           self.yscale.domain( [0,xmax] );
 
-          self.render();
+          self.render(sort_flag);
       }
   
-      render() {
+      render(sort_flag) {
           let self = this;
   
           self.chart.selectAll("rect")
@@ -119,11 +135,11 @@ class BarChart {
               .attr("y", d => self.yscale(d.value)+20);
 
               
-
         
-
           self.xaxis_group
               .call( self.xaxis )
+              .append("g")
+              .attr("id","text_value")
               .append("text")
               .attr("x",self.inner_width/2)
               .attr("y",self.config.margin.bottom)
@@ -136,6 +152,8 @@ class BarChart {
 
           self.yaxis_group
               .call( self.yaxis )
+              .append("g")
+              .attr("id","text_value")
               .append("text")
               .attr("x",-self.config.margin.right-self.inner_height/2)
               .attr("y",-self.config.margin.left/2)
