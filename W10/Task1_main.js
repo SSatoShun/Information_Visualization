@@ -11,6 +11,12 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task1_data
 
         const bar_chart = new BarChart( config, data );
         bar_chart.update();
+
+        d3.select('#reverse')
+            .on('click', d =>{
+                data.reverse();
+                bar_chart.update();
+            })
     })
     .catch( error => {
         console.log( error );
@@ -89,30 +95,33 @@ class BarChart {
   
           self.chart.selectAll("rect")
               .data(self.data)
-              .enter()
-              .append("rect")
+              .join("rect")
+              .transition().duration(1000)
               .attr("x", d => self.xscale( d.label))
               .attr("y", d => self.yscale( d.value) )
               .attr("height", d => self.inner_height-self.yscale(d.value ))
               .attr("width", self.xscale.bandwidth())
               .attr("fill",function(d){return d.color;});
+          //
+         self.chart.selectAll('#text_value').remove();
+          
 
+         self.chart
+             .append("g")
+             .attr("id","text_value")
+             .selectAll("text")
+             .data(self.data)
+             .join("text")
+             .transition().duration(1000)
+             .attr("fill","white")
+             .text(d => d.value)
+              .attr("x",d => self.xscale( d.label) + self.xscale.bandwidth()/self.data.length)
+              .attr("y", d => self.yscale(d.value)+20);
 
-              self.chart.selectAll("text")
-                 .data(self.data)
-                 .enter()
-                 .append("text")
-                 .attr("fill","white")
-                 .text(function(d) {
-                    return d.value;
-                 })
-                 .attr("x", function(d, i) {
-                    return self.xscale( d.label) + self.xscale.bandwidth()/self.data.length;
-                 })
-                 .attr("y", function(d) {
-                    return self.yscale(d.value)+20;
-                 });
-                   
+              
+
+        
+
           self.xaxis_group
               .call( self.xaxis )
               .append("text")
