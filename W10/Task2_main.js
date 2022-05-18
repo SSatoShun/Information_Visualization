@@ -1,160 +1,144 @@
-d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task2_data.csv")
+d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task2_data.csv")
     .then( data => {
-        data.forEach( d => { d.x = +d.x; d.y = +d.y; d.color = d.color;});
+        //数値変換
+        data.forEach( d => { d.x = +d.x; d.y = +d.y; d.r = +d.r });
 
         var config = {
             parent: '#drawing_region',
-            width: 256*3/2,
-            height: 256*3/2,
-            margin: {top:30, right:20, bottom:30, left:80}
+            width: 256*2,
+            height: 256*2,
+            margin: {top:30, right:30, bottom:30, left:30}
         };
 
-        const line_chart = new LineChart( config, data );
-        line_chart.update();
+        const scatter_plot = new ScatterPlot( config, data );
+        scatter_plot.update();
     })
     .catch( error => {
         console.log( error );
     });
-class LineChart {
 
-      constructor( config, data ) {
-          this.config = {
-              parent: config.parent,
-              width: config.width || 256,
-              height: config.height || 128,
-              margin: config.margin || {top:10, right:10, bottom:10, left:10}
-          }
-          this.data = data;
-          this.init();
-      }
-  
-      init() {
-          let self = this;
-  
-          self.svg = d3.select( self.config.parent )
-              .attr('width', self.config.width)
-              .attr('height', self.config.height);
-  
-          self.chart = self.svg.append('g')
-              .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top-3})`);
-  
-          self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
-          self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
-  
-          self.xscale = d3.scaleLinear()
-              .range( [0, self.inner_width] );
-  
-          self.yscale = d3.scaleLinear()
-              .range( [self.inner_height,0] );
-  
-          self.xaxis = d3.axisBottom( self.xscale )
-              .ticks(5)
-              .tickSizeOuter(0);
+class ScatterPlot {
 
-          self.yaxis = d3.axisLeft( self.yscale )
-              .tickSizeOuter(0);
-  
-          self.xaxis_group = self.chart.append('g')
-              .attr('transform', `translate(0, ${self.inner_height})`);
+    constructor( config, data ) {
+        this.config = {
+            parent: config.parent,
+            width: config.width || 256,
+            height: config.height || 256,
+            margin: config.margin || {top:10, right:10, bottom:10, left:10}
+        }
+        this.data = data;
+        this.init();
+    }
 
-          self.yaxis_group = self.chart.append('g');
-        
-          self.svg.append("text")
-            .attr("x",self.inner_width/2 - self.config.margin.right*2)
-            .attr("y",self.config.margin.top-7)
-            .attr("font-size","18px")
+    init() {
+        let self = this;
+        //外枠(Parent)の幅指定
+        self.svg = d3.select( self.config.parent )
+            .attr('width', self.config.width)
+            .attr('height', self.config.height);
+
+        //外枠の中のg領域の平行移動
+        self.chart = self.svg.append('g')
+            .attr('transform', `translate(${self.config.margin.left}, ${self.config.margin.top})`);
+
+        //g領域の領域サイズ計算
+        self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
+        self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
+
+        //スケールの調整。g領域のサイズにリシェイプするための変数
+        self.xscale = d3.scaleLinear()
+            .range( [self.config.margin.left, self.inner_width-self.config.margin.right] );
+
+        self.yscale = d3.scaleLinear()
+            .range( [self.config.margin.top, self.inner_height-self.config.margin.bottom] );
+
+        self.xaxis = d3.axisBottom( self.xscale )
+            .ticks(10)//メモリの刻み幅
+            .tickSize(10)//メモリの棒の長さ
+            .tickPadding(8);//軸と数値の間隔
+            
+            //.text("年/月"); 
+
+        self.yaxis = d3.axisLeft( self.yscale )
+            .ticks(10)
+            .tickSize(10)
+            .tickPadding(8);
+
+        //g領域の中にさらにg領域を作成し、グラフの下に表示されるように平行移動している
+        self.xaxis_group = self.chart.append('g')
+            .attr('transform', `translate(0, ${self.inner_height-self.config.margin.top})`);
+
+        self.yaxis_group = self.chart.append('g')
+            .attr('transform', `translate(${self.config.margin.left} ,0)`);
+
+        self.svg.append("text")
+            .attr("x",self.inner_width/2)
+            .attr("y",self.config.margin.top)
+            .attr("font-size","25px")
             .attr("fill","black")
             .attr("stroke","black")
-            .attr("font-weight",20)
-            .attr("stroke-width",1.6)
-            .text("Line Chart with Dots and Area");
+            .attr("stroke-width",2)
+            .text("Scatter Plot");
 
-          self.area = d3.area()
-            .x( d => self.xscale(d.x ))
-            .y1( d => self.yscale(d.y) )
-            .y0(self.inner_height);
-          self.line = d3.line()
-            .x( d => self.xscale(d.x ))
-            .y( d => self.yscale(d.y) );
-      }
-  
-      update() {
-          let self = this;
-          const xmin = d3.min(self.data, d => d.x);
-          const xmax = d3.max(self.data, d => d.x);
-          self.xscale.domain( [xmin,xmax]);
+    }
 
-          const ymax = d3.max(self.data, d => d.y);
+    update() {
+        let self = this;
 
-          self.yscale.domain( [0,ymax] );
+        const xmin = d3.min( self.data, d => d.x );
+        const xmax = d3.max( self.data, d => d.x );
+        //self.xscale.domain( [xmin, xmax] );
+        self.xscale.domain( [xmin-self.config.margin.left/2, xmax+self.config.margin.right] );
 
-          self.render();
-      }
-  
-      render() {
-          let self = this;
-  
-          self.chart.append("path")
-              .attr("d", self.area(self.data))
-              .attr('fill', '#999')
-              .attr('stroke', 'black');
+        const ymin = d3.min( self.data, d => d.y );
+        const ymax = d3.max( self.data, d => d.y );
+        //self.yscale.domain( [ymin, ymax] );
+        self.yscale.domain( [ymax+self.config.margin.bottom,ymin-self.config.margin.top/2] );
 
-          self.chart.append("path")
-              .attr("d", self.line(self.data))
-              .attr('stroke', 'blue')
-              .attr("stroke-width",2)
-              .attr("fill","none");
-              
+        self.render();
+    }
 
-          self.chart.selectAll("circle")
-              .data(self.data)
-              .enter()
-              .append("circle")
-              .attr("cx", function(d){ return self.xscale(d.x); })
-              .attr("cy", function(d){ return self.yscale(d.y); })
-              .attr("r", function(d){ return 4; })
-              .style("fill","red")
+    render() {
+        let self = this;
+
+        self.chart.selectAll("circle")
+            .data(self.data)
+            .enter()
+            .append("circle")
+            .attr("cx", d => self.xscale( d.x ) )
+            .attr("cy", d => self.yscale( d.y ) )
+            .attr("r", d => d.r );
+
+        self.xaxis_group
+            .call( self.xaxis )
+            .append("text")
+            .attr("x",self.inner_width/2)
+            .attr("y",self.config.margin.bottom)
+            .attr("dy",19)
+            .attr("font-size", "18px")
+            .text("X-label")
+            .attr("fill","black")
+            .attr("stroke","black")
+            .attr("stroke-width",1);
+            
 
 
-              self.chart.selectAll("text")
-                 .data(self.data)
-                 .enter()
-                 .append("text")
-                 //.attr("fill","white");
-                  .text(function(d) {
-                     return d.y;
-                  })
-                  .attr("x", function(d, i) {
-                     return self.xscale(d.x)+1;
-                  })
-                  .attr("y", function(d) {
-                     return self.yscale(d.y)+12;
-                  });
-                   
-          self.xaxis_group
-              .call( self.xaxis )
-              .append("text")
-              .attr("x",self.inner_width/2)
-              .attr("y",self.config.margin.bottom)
-              .attr("font-size", "18px")
-              .text("XLabel")
-              .attr("fill","black")
-              .attr("stroke","black")
-              .attr("stroke-width",1);
-
-          self.yaxis_group
-              .call( self.yaxis )
-              .append("text")
-              .attr("x",-self.config.margin.right-self.inner_height/2)
-              .attr("y",-self.config.margin.left/2)
-              .attr("font-size", "18px")
-              .text("YLabel")
-              .attr("fill","black")
-              .attr("stroke","black")
-              .attr('transform', 'rotate(-90)')
-              .attr('text-anchor', 'middle')
-              .attr("stroke-width",1);
-
-      }
-  }
-
+        self.yaxis_group
+            //.attr("transform", "translate(" + self.config.margin.left + "," + 0 + ")")
+            .call( self.yaxis )
+            .append("text")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("dx",-200)
+            .attr("dy",-40)
+            .attr("font-size", "18px")
+            .text("Y-label")
+            .attr("fill","black")
+            .attr("stroke","black")
+            .attr("stroke-width",1)
+            .attr("transform", "rotate(-90)")
+            //.attr("transform","rotate(180,0,self.inner_height/2)")
+            .attr("text-orientation","sideways");
+            //.attr("writing-mode","vertical-rl");
+    }
+}
