@@ -108,7 +108,22 @@ class ScatterPlot {
             .attr("cx", d => self.xscale( d.x ) )
             .attr("cy", d => self.yscale( d.y ) )
             .attr("r", d => d.r )
-            .attr("fill", d => d.color);
+            .attr("fill", d => d.color)
+            .on('mouseover', (e,d) => {
+                d3.select('#tooltip')
+                    .style('opacity', 1)
+                    .html(`<div class="tooltip-label">Position</div>(${d.x}, ${d.y})`);
+            })
+            .on('mousemove', (e) => {
+                const padding = 10;
+                d3.select('#tooltip')
+                    .style('left', (e.pageX + padding) + 'px')
+                    .style('top', (e.pageY + padding) + 'px');
+            })
+            .on('mouseleave', () => {
+                d3.select('#tooltip')
+                    .style('opacity', 0);
+            });
 
         self.xaxis_group
             .call( self.xaxis )
