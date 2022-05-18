@@ -1,4 +1,4 @@
-d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task1_data.csv")
+d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task1_data.csv")
     .then( data => {
         data.forEach( d => { d.label = d.label; d.value = +d.value; d.color = d.color;});
 
