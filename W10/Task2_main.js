@@ -19,8 +19,10 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task2_data
         d3.select('#color3').on('click' , d=>scatter_plot.color_Flag(3))
         d3.select('#color4').on('click' , d=>scatter_plot.color_Flag(4))
         d3.select('#color5').on('click' , d=>scatter_plot.color_Flag(5))
-        document.getElementById("all_announce").innerHTML = "You can use two functions!";
+        document.getElementById("all_announce").innerHTML = "You can use three functions!";
         document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
+        document.getElementById("radius_announce").innerHTML = "Function 2 : You can change radius of circles!";
+        document.getElementById("tooltip_announce").innerHTML = "Function 3 : You can see the coordinates and radius of the circle by hovering the mouse over the circle!";
         d3.select('#radius-slider')
             .on('input', function() {
                 scatter_plot.set_radius(parseInt(this.value));
