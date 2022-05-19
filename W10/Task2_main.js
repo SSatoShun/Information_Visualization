@@ -18,8 +18,14 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task2_data
         d3.select('#color2').on('click' , d=>scatter_plot.color_Flag(2))
         d3.select('#color3').on('click' , d=>scatter_plot.color_Flag(3))
         d3.select('#color4').on('click' , d=>scatter_plot.color_Flag(4))
+        d3.select('#color5').on('click' , d=>scatter_plot.color_Flag(5))
         document.getElementById("all_announce").innerHTML = "You can use two functions!";
         document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Red'</font>";
+        d3.select('#radius-slider')
+            .on('input', function() {
+                scatter_plot.set_radius(parseInt(this.value));
+                d3.select('#radius-value').text(this.value);
+        });
 
     })
     .catch( error => {
@@ -27,6 +33,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W10/W10_task2_data
     });
 
 let color_flag =0;
+
 class ScatterPlot {
 
     constructor( config, data ) {
@@ -89,6 +96,7 @@ class ScatterPlot {
             .attr("stroke","black")
             .attr("stroke-width",2)
             .text("Scatter Plot");
+        self.radius = 20;
 
     }
 
@@ -118,12 +126,12 @@ class ScatterPlot {
             .on("click",self.color)
             .attr("cx", d => self.xscale( d.x ) )
             .attr("cy", d => self.yscale( d.y ) )
-            .attr("r", d => d.r )
+            .attr("r",  self.radius  )
             .attr("fill", d => d.color)
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Position</div>(${d.x}, ${d.y})`);
+                    .html(`<div class="tooltip-label">Position</div>(x:${d.x}, y:${d.y}, r:${self.radius})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
@@ -175,7 +183,8 @@ class ScatterPlot {
         if(flag == 2)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Green'</font>";
         if(flag == 3)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Blue'</font>";
         if(flag == 4)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Purple'</font>";
-      };
+        if(flag == 5)document.getElementById("color_announce").innerHTML = "Function 1 : You can change the color with a click!<br>Your color of choice right now is <font color = red> 'Yellow'</font>";
+      }
       
     color(){
         if(color_flag == 0){
@@ -193,5 +202,28 @@ class ScatterPlot {
         if(color_flag == 4){
             d3.select(this).style("fill","purple");
         }
+        if(color_flag == 5){
+            d3.select(this).style("fill","yellow");
+        }
     }
+    set_radius(rr){
+        d3.selectAll("circle")
+                  .attr("r",rr)
+                  .on('mouseover', (e,d) => {
+                    d3.select('#tooltip')
+                        .style('opacity', 1)
+                        .html(`<div class="tooltip-label">Position</div>(x:${d.x}, y:${d.y}, r:${rr})`);
+                })
+                .on('mousemove', (e) => {
+                    const padding = 10;
+                    d3.select('#tooltip')
+                        .style('left', (e.pageX + padding) + 'px')
+                        .style('top', (e.pageY + padding) + 'px');
+                })
+                .on('mouseleave', () => {
+                    d3.select('#tooltip')
+                        .style('opacity', 0);
+                });
+    }
+    
 }
