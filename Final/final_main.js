@@ -7,7 +7,7 @@ let filter = [];
 d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.csv")
     .then( data => {
         input_data = data;
-        input_data.forEach( d => { d.refecturea = d.refecturea; d.wage = +d.wage;d.population = +d.population});
+        input_data.forEach( d => { d.refecturea = d.refecturea; d.wage = +d.wage;d.population = +d.population;d.born = d.born});
 
         var config = {
             parent: '#drawing_region',

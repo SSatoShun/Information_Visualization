@@ -61,7 +61,7 @@ class BarChart {
           //self.yscale.domain( self.data.map(d => d.label ))
           //.paddingInner(0.3);
 
-          const xmax = d3.max( self.data, d => d.wage );
+          const xmax = d3.max( self.data, d => d.born );
           self.yscale.domain( [0,xmax] );
 
           self.render();
@@ -76,8 +76,8 @@ class BarChart {
             //  .on("click",self.color)
             //  .transition().duration(1000)
               .attr("x", d => self.xscale( d.refecturea))
-              .attr("y", d => self.yscale( d.wage) )
-              .attr("height", d => self.inner_height-self.yscale(d.wage ))
+              .attr("y", d => self.yscale( d.born) )
+              .attr("height", d => self.inner_height-self.yscale(d.born ))
               .attr("width", self.xscale.bandwidth());
               //.attr("fill",function(d){return d.color;});
           //
@@ -90,7 +90,7 @@ class BarChart {
              .join("text")
              .transition().duration(1000)
              .attr("fill","white")
-             .text(d => d.wage)
+             .text(d => d.born)
               .attr("x",d => self.xscale( d.refecturea) + self.xscale.bandwidth()/self.data.length)
               .attr("y", d => self.yscale(d.refecturea)+20);
 
