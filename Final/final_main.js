@@ -1,4 +1,5 @@
 let input_data;
+let input_data2;
 //let scatter_plot;
 let pie_chart;
 let pie_chart2;
@@ -10,15 +11,15 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
 
         var config = {
             parent: '#drawing_region',
-            width: 256*2,
-            height: 256*2,
+            width: 256*5,
+            height: 256*5,
             radius : Math.min(256,256)/2,
             margin: {top:30, right:20, bottom:30, left:30}
         };
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);
         // const pie_chart2 = new PieChart( config, data,inner_r,outer_r );
-        pie_chart = new PieChart( config, input_data ,100,150,"pie1");
+        pie_chart = new PieChart( config, input_data ,200,500,"pie1");
         //pie_chart2 = new PieChart( config, input_data,10,100,"pie2" );
         pie_chart.update();
         //pie_chart2.update();
@@ -27,6 +28,29 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
         console.log( error );
     });
 
+    d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_separate.csv")
+    .then( data => {
+        input_data2 = data;
+        input_data2.forEach( d => { d.refecturea = d.refecturea;d.population = +d.population});
+
+        var config = {
+            parent: '#drawing_region',
+            width: 256*5,
+            height: 256*5,
+            radius : Math.min(256,256)/2,
+            margin: {top:30, right:20, bottom:30, left:30}
+        };
+
+        // const pie_chart = new PieChart( config, data ,inner_r,outer_r);
+        // const pie_chart2 = new PieChart( config, data,inner_r,outer_r );
+        //pie_chart = new PieChart( config, input_data ,100,150,"pie1");
+        pie_chart2 = new PieChart( config, input_data2,50,200,"pie2" );
+        pie_chart2.update();
+        //pie_chart2.update();
+    })
+    .catch( error => {
+        console.log( error );
+    });
 
 function Filter() {
     if ( filter.length == 0 ) {

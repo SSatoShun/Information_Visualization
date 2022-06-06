@@ -52,7 +52,8 @@ class PieChart {
         let self = this;
         
         self.pie
-            .value(d => d.population);
+            .value(d => d.population)
+            .sort(null);
 
         self.arc
             .innerRadius(this.inner_r)
@@ -94,20 +95,24 @@ class PieChart {
               .attr("transform", function(d) {
                 return "translate("+self.arc.centroid(d)+ ")";
               })
-              .attr("fill","white")
+              .attr("fill","red")
               .attr("id",self.text_pie);
+          if(this.text_pie == "pie2"){
 
-          self.pieChart
-              .append("text")
-              .text(function(d){return d.data.population;})
-              .attr('text-anchor', 'middle')
-              .attr('font-size','14px')
-              .attr("transform", function(d) {
-                return "translate("+self.arc.centroid(d)+ ")";
-              })
-              .attr("dy",20)
-              .attr("fill","white")
-              .attr("id",self.text_pie);
+          
+            self.pieChart
+                .append("text")
+                .text(function(d){return d.data.population;})
+                .attr('text-anchor', 'middle')
+                .attr('font-size','14px')
+                .attr("transform", function(d) {
+                    return "translate("+self.arc.centroid(d)+ ")";
+                    //return "translate(10)";
+                })
+                .attr("dy",20)
+                .attr("fill","white")
+                .attr("id",self.text_pie);
+          }
                  
 
     }
