@@ -52,7 +52,7 @@ class PieChart {
         let self = this;
         
         self.pie
-            .value(d => d.value);
+            .value(d => d.population);
 
         self.arc
             .innerRadius(this.inner_r)
@@ -88,7 +88,7 @@ class PieChart {
       
          self.pieChart
               .append("text")
-              .text(function(d){return d.data.label;})
+              .text(function(d){return d.data.refecturea;})
               .attr('text-anchor', 'middle')
               .attr('font-size','14px')
               .attr("transform", function(d) {
@@ -99,7 +99,7 @@ class PieChart {
 
           self.pieChart
               .append("text")
-              .text(function(d){return d.data.value;})
+              .text(function(d){return d.data.population;})
               .attr('text-anchor', 'middle')
               .attr('font-size','14px')
               .attr("transform", function(d) {
