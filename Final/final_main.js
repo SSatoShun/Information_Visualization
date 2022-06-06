@@ -16,12 +16,20 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
             radius : Math.min(256,256)/2,
             margin: {top:30, right:20, bottom:30, left:30}
         };
+        var config2 = {
+            parent: '#drawing_region2',
+            width: 256*5,
+            height: 256*5,
+            margin: {top:30, right:20, bottom:30, left:30}
+        };
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);
         // const pie_chart2 = new PieChart( config, data,inner_r,outer_r );
         pie_chart = new PieChart( config, input_data ,200,500,"pie1");
+        bar_chart = new BarChart( config2, input_data);
         //pie_chart2 = new PieChart( config, input_data,10,100,"pie2" );
         pie_chart.update();
+        bar_chart.update();
         //pie_chart2.update();
     })
     .catch( error => {
