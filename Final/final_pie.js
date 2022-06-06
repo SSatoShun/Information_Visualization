@@ -50,7 +50,7 @@ class PieChart {
 
     update() {
         let self = this;
-
+        
         self.pie
             .value(d => d.value);
 
@@ -111,13 +111,4 @@ class PieChart {
                  
 
     }
-}
-function Filter() {
-    if ( filter.length == 0 ) {
-        scatter_plot.data = input_data;
-    }
-    else {
-        scatter_plot.data = input_data.filter( d => filter.includes( d.species ) );
-    }
-    scatter_plot.update();
 }

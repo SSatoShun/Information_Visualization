@@ -3,10 +3,10 @@ let input_data;
 let pie_chart;
 let pie_chart2;
 let filter = [];
-d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task3_data.csv")
+d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_temp_data.csv")
     .then( data => {
         input_data = data;
-        input_data.forEach( d => { d.label = d.label; d.value = +d.value; d.color = d.color;});
+        input_data.forEach( d => { d.label = d.label; d.value = +d.value; d.color = d.color; d.species = +d.species});
 
         var config = {
             parent: '#drawing_region',
@@ -28,3 +28,12 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/W08/W08_task3_data
     });
 
 
+function Filter() {
+    if ( filter.length == 0 ) {
+        scatter_plot.data = input_data;
+    }
+    else {
+        scatter_plot.data = input_data.filter( d => filter.includes( d.species ) );
+    }
+    scatter_plot.update();
+}
