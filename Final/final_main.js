@@ -1,8 +1,10 @@
 let input_data;
 let input_data2;
+let input_data3;
 //let scatter_plot;
 let pie_chart;
 let pie_chart2;
+let bar_chart;
 let filter = [];
 d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.csv")
     .then( data => {
@@ -68,4 +70,13 @@ function Filter() {
         scatter_plot.data = input_data.filter( d => filter.includes( d.species ) );
     }
     scatter_plot.update();
+}
+function Filter2() {
+    if ( filter.length == 0 ) {
+        bar_chart.data = input_data;
+    }
+    else {
+        bar_chart.data = input_data.filter( d => filter.includes( "石川" ) );
+    }
+    bar_chart.update();
 }

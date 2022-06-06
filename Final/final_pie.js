@@ -77,10 +77,18 @@ class PieChart {
             .attr('d', self.arc)
             .attr('stroke', 'white')
             .style('stroke-width', '2px')
-            .style("fill",function(d,i){return d.data.color  ;})
+            //.style("fill",function(d,i){return d.data.color  ;})
             .attr("opacity", 3)
             .attr("id",self.text_pie)
-            .on("click",function(d){
+            .on("click",function(ev,d){
+                let is_active = filter.includes(d.data.refecturea);
+                if ( is_active ) {
+                     filter = filter.filter( f => f !== d.data.refecturea );
+                 }
+                 else {
+                     filter.push( d.data.refecturea );
+                 }
+                Filter2();
                 d3.selectAll("#"+self.text_pie).remove();
                 //d3.selectAll("#title").remove();
             });
