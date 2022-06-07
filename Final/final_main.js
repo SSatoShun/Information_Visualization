@@ -27,7 +27,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);
         // const pie_chart2 = new PieChart( config, data,inner_r,outer_r );
-        pie_chart = new PieChart( config, input_data ,200,500,"pie1");
+        pie_chart = new PieChart( config, input_data ,250,500,"pie1");
         bar_chart = new BarChart( config2, input_data);
         //pie_chart2 = new PieChart( config, input_data,10,100,"pie2" );
         pie_chart.update();
@@ -74,9 +74,12 @@ function Filter() {
 function Filter2() {
     if ( filter.length == 0 ) {
         bar_chart.data = input_data;
+        pie_chart.data = input_data;
     }
     else {
-        bar_chart.data = input_data.filter( d => filter.includes( "石川" ) );
+        bar_chart.data = input_data.filter( d => filter.includes( d.area ) );
+        pie_chart.data = input_data.filter( d => filter.includes( d.area ) );
     }
     bar_chart.update();
+    pie_chart.update();
 }

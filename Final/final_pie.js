@@ -46,6 +46,10 @@ class PieChart {
         self.pie = d3.pie();
 
         self.arc = d3.arc();
+        // self.color_scale = d3.scaleOrdinal()
+		// 	.domain( d3.min(self.data, function(d){ return d.population; }), 
+      	// 				d3.max(self.data, function(d){ return d.population; }))
+		// 	.range( d3.schemeCategory20 );
     }
 
     update() {
@@ -59,7 +63,7 @@ class PieChart {
             .innerRadius(this.inner_r)
             .outerRadius(self.outer_r);
         self.color = d3.scaleOrdinal()
-                      .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099"]);
+                      .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099","#998732"]);
 
         self.render();
     }
@@ -68,42 +72,111 @@ class PieChart {
         let self = this;
 
         self.pieChart = self.chart.selectAll('pie')
+
+            .append("g")
             .data( self.pie(self.data) )
-            .enter()
-            .append("g");
+        .enter();
             //.attr("class","pie");
 
-        self.pieChart.append('path')
-            .attr('d', self.arc)
-            .attr('stroke', 'white')
-            .style('stroke-width', '2px')
-            //.style("fill",function(d,i){return d.data.color  ;})
-            .attr("opacity", 3)
-            .attr("id",self.text_pie)
-            .on("click",function(ev,d){
-                let is_active = filter.includes(d.data.refecturea);
-                if ( is_active ) {
-                     filter = filter.filter( f => f !== d.data.refecturea );
-                 }
-                 else {
-                     filter.push( d.data.refecturea );
-                 }
-                Filter2();
-                d3.selectAll("#"+self.text_pie).remove();
-                //d3.selectAll("#title").remove();
-            });
+        if(this.text_pie == "pie2"){
+            self.pieChart
+                .append('path')
+                //.selectAll('path')
+                
+                .attr('d', self.arc)
+                .attr('stroke', 'white')
+                .style('stroke-width', '2px')
+                //.style("fill",function(d,i){return d.data.color  ;})
+                .attr("opacity", 3)
+                .attr("id",self.text_pie)
+                .attr("fill",function(d){
+                    return self.color(d.index);
+                })
+                
+                
+                .on("click",function(ev,d){
+                    let is_active = filter.includes(d.data.refecturea);
+                    if ( is_active ) {
+                        filter = filter.filter( f => f !== d.data.refecturea );
+                    }
+                    else {
+                        filter.push( d.data.refecturea );
+                    }
+                    Filter2();
+                    //d3.selectAll("#"+self.text_pie).remove();
+                    //d3.selectAll("#title").remove();
+                })
+                .transition()
+                .ease(d3.easeCircle)
+                .duration(2000)
+                .attrTween("d", function(d){    // �?定した�?囲で値を変化させアニメーションさせ�?
+                    var interpolate = d3.interpolate(
+                        { startAngle : 0, endAngle : 0 },   // �?�?グラフ�?�開始角度
+                        { startAngle : d.startAngle, endAngle : d.endAngle }    // �?�?グラフ�?�終�?角度
+                    );
+                    return function(t){
+                        return self.arc(interpolate(t)); // 時間に応じて処�?
+                    }
+                }); 
+            }
+            else{
+                self.pieChart
+                .append('path')
+                //.selectAll('path')
+                
+                .attr('d', self.arc)
+                .attr('stroke', 'white')
+                .style('stroke-width', '2px')
+                //.style("fill",function(d,i){return d.data.color  ;})
+                .attr("opacity", 3)
+                .attr("id",self.text_pie)
+                
+                .attr("fill",function(d,i){
+                    let abcde = d.data.area;
+                    if(1)return "blue";
+                    else return "yellow";
+                })
+                .transition()
+                .ease(d3.easeCircle)
+                .duration(2000)
+                .attrTween("d", function(d){    // �?定した�?囲で値を変化させアニメーションさせ�?
+                    var interpolate = d3.interpolate(
+                        { startAngle : 0, endAngle : 0 },   // �?�?グラフ�?�開始角度
+                        { startAngle : d.startAngle, endAngle : d.endAngle }    // �?�?グラフ�?�終�?角度
+                    );
+                    return function(t){
+                        return self.arc(interpolate(t)); // 時間に応じて処�?
+                    }
+                });
+
+            }   
        
 
-      
+            // self.chart
+            //  .append("g")
+            //  .attr("id","text_value")
+            //  .selectAll("text")
+            //  .data(self.data)
+            //  .join("text")
+            //  .transition().duration(1000)
+            //  .attr("fill","white")
+            //  .text(d => d.value)
+            //   .attr("x",d => self.xscale( d.label) + self.xscale.bandwidth()/self.data.length)
+            //   .attr("y", d => self.yscale(d.value)+20);
          self.pieChart
+         //.selectAll("text")
+         //.append("g")
+         
               .append("text")
               .text(function(d){return d.data.refecturea;})
+              .transition().duration(3000)
               .attr('text-anchor', 'middle')
               .attr('font-size','14px')
               .attr("transform", function(d) {
                 return "translate("+self.arc.centroid(d)+ ")";
               })
-              .attr("fill","red")
+              .attr("fill","white")
+              
               .attr("id",self.text_pie);
           if(this.text_pie == "pie2"){
 
@@ -121,7 +194,12 @@ class PieChart {
                 .attr("fill","white")
                 .attr("id",self.text_pie);
           }
+ 
                  
 
+    }
+    tweenPie(b) {
+        var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
+        return function(t) {	return self.arc(i(t)) ;    };
     }
 }

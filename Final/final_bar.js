@@ -73,6 +73,7 @@ class BarChart {
           self.chart.selectAll("rect")
               .data(self.data)
               .join("rect")
+              .transition().duration(1000)
             //  .on("click",self.color)
             //  .transition().duration(1000)
               .attr("x", d => self.xscale( d.refecturea))
