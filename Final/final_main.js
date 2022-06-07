@@ -9,20 +9,20 @@ let filter = [];
 d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.csv")
     .then( data => {
         input_data = data;
-        input_data.forEach( d => { d.refecturea = d.refecturea; d.wage = +d.wage;d.population = +d.population;d.born = d.born});
+        input_data.forEach( d => { d.refecturea = d.refecturea; d.wage = +d.wage;d.population = +d.population;d.born = d.born;d.area_num = +d.area_num});
 
         var config = {
             parent: '#drawing_region',
-            width: 256*5,
-            height: 256*5,
+            width: 256*4,
+            height: 256*4,
             radius : Math.min(256,256)/2,
-            margin: {top:30, right:20, bottom:30, left:30}
+            margin: {top:30, right:20, bottom:60, left:30}
         };
         var config2 = {
             parent: '#drawing_region2',
             width: 256*5,
-            height: 256*5,
-            margin: {top:30, right:20, bottom:30, left:30}
+            height: 256*4,
+            margin: {top:30, right:20, bottom:100, left:80}
         };
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);
@@ -45,10 +45,10 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
 
         var config = {
             parent: '#drawing_region',
-            width: 256*5,
-            height: 256*5,
+            width: 256*4,
+            height: 256*4,
             radius : Math.min(256,256)/2,
-            margin: {top:30, right:20, bottom:30, left:30}
+            margin: {top:30, right:20, bottom:60, left:30}
         };
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);

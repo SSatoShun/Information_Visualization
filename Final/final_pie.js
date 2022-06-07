@@ -63,7 +63,7 @@ class PieChart {
             .innerRadius(this.inner_r)
             .outerRadius(self.outer_r);
         self.color = d3.scaleOrdinal()
-                      .range(["#DC3912", "#3366CC", "#109618", "#FF9900", "#990099","#998732"]);
+                      .range(["#F4F6AA", "#D4AB92", "#DBAEEB", "#92C4D4", "#E3F6D6","#998732"]);
 
         self.render();
     }
@@ -109,13 +109,13 @@ class PieChart {
                 .transition()
                 .ease(d3.easeCircle)
                 .duration(2000)
-                .attrTween("d", function(d){    // ï¿½?å®šã—ãŸï¿½?å›²ã§å€¤ã‚’å¤‰åŒ–ã•ã›ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã•ã›ï¿½?
+                .attrTween("d", function(d){    // ??’è‚µ‚½??ˆÍ‚Å’l‚ğ•Ï‰»‚³‚¹ƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹??
                     var interpolate = d3.interpolate(
-                        { startAngle : 0, endAngle : 0 },   // ï¿½?ï¿½?ã‚°ãƒ©ãƒ•ï¿½?ï¿½é–‹å§‹è§’åº¦
-                        { startAngle : d.startAngle, endAngle : d.endAngle }    // ï¿½?ï¿½?ã‚°ãƒ©ãƒ•ï¿½?ï¿½çµ‚ï¿½?è§’åº¦
+                        { startAngle : 0, endAngle : 0 },   // ????ƒOƒ‰ƒt???ŠJnŠp“x
+                        { startAngle : d.startAngle, endAngle : d.endAngle }    // ????ƒOƒ‰ƒt???I??Šp“x
                     );
                     return function(t){
-                        return self.arc(interpolate(t)); // æ™‚é–“ã«å¿œã˜ã¦å‡¦ï¿½?
+                        return self.arc(interpolate(t)); // ŠÔ‚É‰‚¶‚Äˆ??
                     }
                 }); 
             }
@@ -130,22 +130,27 @@ class PieChart {
                 //.style("fill",function(d,i){return d.data.color  ;})
                 .attr("opacity", 3)
                 .attr("id",self.text_pie)
-                
+                //"#DC3912", "#3366CC", "#109618", "#FF9900", "#990099","#998732"
                 .attr("fill",function(d,i){
-                    let abcde = d.data.area;
-                    if(1)return "blue";
-                    else return "yellow";
+                    if(d.data.area_num == 1)return "#F4F6AA";
+                    else if(d.data.area_num==2)return "#D4AB92";
+                    else if(d.data.area_num==3)return "#DBAEEB";
+                    else if(d.data.area_num==4)return "#92C4D4";
+                    else if(d.data.area_num==5)return "#E3F6D6";
+                    else if(d.data.area_num==6)return "#998732";
+    
+                    //return self.color(d.data.area_num);
                 })
                 .transition()
                 .ease(d3.easeCircle)
                 .duration(2000)
-                .attrTween("d", function(d){    // ï¿½?å®šã—ãŸï¿½?å›²ã§å€¤ã‚’å¤‰åŒ–ã•ã›ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã•ã›ï¿½?
+                .attrTween("d", function(d){    // ??’è‚µ‚½??ˆÍ‚Å’l‚ğ•Ï‰»‚³‚¹ƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹??
                     var interpolate = d3.interpolate(
-                        { startAngle : 0, endAngle : 0 },   // ï¿½?ï¿½?ã‚°ãƒ©ãƒ•ï¿½?ï¿½é–‹å§‹è§’åº¦
-                        { startAngle : d.startAngle, endAngle : d.endAngle }    // ï¿½?ï¿½?ã‚°ãƒ©ãƒ•ï¿½?ï¿½çµ‚ï¿½?è§’åº¦
+                        { startAngle : 0, endAngle : 0 },   // ????ƒOƒ‰ƒt???ŠJnŠp“x
+                        { startAngle : d.startAngle, endAngle : d.endAngle }    // ????ƒOƒ‰ƒt???I??Šp“x
                     );
                     return function(t){
-                        return self.arc(interpolate(t)); // æ™‚é–“ã«å¿œã˜ã¦å‡¦ï¿½?
+                        return self.arc(interpolate(t)); // ŠÔ‚É‰‚¶‚Äˆ??
                     }
                 });
 
@@ -175,7 +180,8 @@ class PieChart {
               .attr("transform", function(d) {
                 return "translate("+self.arc.centroid(d)+ ")";
               })
-              .attr("fill","white")
+              .attr("fill","black")
+              .attr("font-size","20px")
               
               .attr("id",self.text_pie);
           if(this.text_pie == "pie2"){
@@ -191,7 +197,7 @@ class PieChart {
                     //return "translate(10)";
                 })
                 .attr("dy",20)
-                .attr("fill","white")
+                .attr("fill","black")
                 .attr("id",self.text_pie);
           }
  

@@ -73,13 +73,25 @@ class BarChart {
           self.chart.selectAll("rect")
               .data(self.data)
               .join("rect")
+              .attr("fill",function(d,i){
+                if(d.area_num == 1)return "#F4F6AA";
+                else if(d.area_num==2)return "#D4AB92";
+                else if(d.area_num==3)return "#DBAEEB";
+                else if(d.area_num==4)return "#92C4D4";
+                else if(d.area_num==5)return "#E3F6D6";
+                else if(d.area_num==6)return "#998732";
+
+                //return self.color(d.data.area_num);
+            })
               .transition().duration(1000)
             //  .on("click",self.color)
             //  .transition().duration(1000)
               .attr("x", d => self.xscale( d.refecturea))
               .attr("y", d => self.yscale( d.born) )
               .attr("height", d => self.inner_height-self.yscale(d.born ))
-              .attr("width", self.xscale.bandwidth());
+              .attr("width", self.xscale.bandwidth())
+              //.attr("fill","yellow")
+              ;
               //.attr("fill",function(d){return d.color;});
           //
          self.chart.selectAll('#text_value').remove();
@@ -92,6 +104,7 @@ class BarChart {
              .transition().duration(1000)
              .attr("fill","white")
              .text(d => d.born)
+             .attr("id","axis_value")
               .attr("x",d => self.xscale( d.refecturea) + self.xscale.bandwidth()/self.data.length)
               .attr("y", d => self.yscale(d.refecturea)+20);
 
@@ -99,27 +112,52 @@ class BarChart {
         
           self.xaxis_group
               .call( self.xaxis )
+              .style('font-size',"25px")
+              //.selectAll('text')
+              //.attr("y", 5)   // Y座標を指定する
+
               .append("g")
-              .attr("id","text_value")
+              .attr("id","text_value");
+            //   .append("text")
+              
+            //   .attr("x",self.inner_width/2)
+            //   .attr("y",self.config.margin.bottom)
+            //   .text("Food Name")
+            //   .attr("dy",2)
+            //   .attr("fill","black")
+            //   .attr("stroke","black")
+            //   .attr("stroke-width",1);
+              //.attr("y", 5)   // Y座標を指定する
+              self.xaxis_group
+              .call( self.xaxis )
+              .selectAll("text")
+              .attr("transform","rotate(-90)")
+              .attr("dx",-40)
+              .attr("dy",0);
+              
+              self.xaxis_group
+              //.call( self.xaxis )
               .append("text")
               .attr("x",self.inner_width/2)
               .attr("y",self.config.margin.bottom)
-              .attr("font-size", "18px")
               .text("Food Name")
               .attr("dy",2)
               .attr("fill","black")
               .attr("stroke","black")
               .attr("stroke-width",1);
 
+
           self.yaxis_group
               .call( self.yaxis )
+              .style('font-size',"25px")
               .append("g")
               .attr("id","text_value")
               .append("text")
               .attr("x",-self.config.margin.right-self.inner_height/2)
               .attr("y",-self.config.margin.left/2)
-              .attr("font-size", "18px")
+              .attr("font-size", "25px")
               .text("Value")
+              .attr("dy",-15)
               .attr("fill","black")
               .attr("stroke","black")
               .attr('transform', 'rotate(-90)')
