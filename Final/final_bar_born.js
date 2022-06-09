@@ -83,6 +83,21 @@ class BarChart_born {
 
                 //return self.color(d.data.area_num);
             })
+            .on('mouseover', (e,d) => {
+                d3.select('#tooltip')
+                    .style('opacity', 1)
+                    .html(`<div class="tooltip-label">Born</div>(value:${d.born})`);
+            })
+            .on('mousemove', (e) => {
+                const padding = 10;
+                d3.select('#tooltip')
+                    .style('left', (e.pageX + padding) + 'px')
+                    .style('top', (e.pageY + padding) + 'px');
+            })
+            .on('mouseleave', () => {
+                d3.select('#tooltip')
+                    .style('opacity', 0);
+            })
               .transition().duration(1000)
             //  .on("click",self.color)
             //  .transition().duration(1000)

@@ -2,6 +2,25 @@
     <head>
         <title>Final: Task</title>
     </head>
+    <style>
+        body {
+            font-family: system-ui;
+        }
+        #tooltip {
+            position: absolute;
+            opacity: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+        }
+        .tooltip-label {
+            font-weight: 500;
+            font-size: 11px;
+            color: #888;
+        }
+    </style>
     <body>
     <p id="choice_announce"></p>
     <button type="button" id="reset">Reset</button>
@@ -13,5 +32,6 @@
     <script src="final_bar_population.js"></script>
     <script src="final_bar_born.js"></script>
 	<script src="final_main.js"></script>
+    <div id="tooltip"></div>
     </body>
 </html>

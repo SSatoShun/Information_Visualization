@@ -106,6 +106,21 @@ class PieChart {
                     //d3.selectAll("#"+self.text_pie).remove();
                     //d3.selectAll("#title").remove();
                 })
+                .on('mouseover', (e,d) => {
+                    d3.select('#tooltip')
+                        .style('opacity', 1)
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.refecturea} , value:${d.data.population})`);
+                })
+                .on('mousemove', (e) => {
+                    const padding = 10;
+                    d3.select('#tooltip')
+                        .style('left', (e.pageX + padding) + 'px')
+                        .style('top', (e.pageY + padding) + 'px');
+                })
+                .on('mouseleave', () => {
+                    d3.select('#tooltip')
+                        .style('opacity', 0);
+                })
                 .transition()
                 .ease(d3.easeCircle)
                 .duration(2000)
@@ -140,6 +155,21 @@ class PieChart {
                     else if(d.data.area_num==6)return "#998732";
     
                     //return self.color(d.data.area_num);
+                })
+                .on('mouseover', (e,d) => {
+                    d3.select('#tooltip')
+                        .style('opacity', 1)
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , refecturea:${d.data.refecturea} , value:${d.data.population})`);
+                })
+                .on('mousemove', (e) => {
+                    const padding = 10;
+                    d3.select('#tooltip')
+                        .style('left', (e.pageX + padding) + 'px')
+                        .style('top', (e.pageY + padding) + 'px');
+                })
+                .on('mouseleave', () => {
+                    d3.select('#tooltip')
+                        .style('opacity', 0);
                 })
                 .transition()
                 .ease(d3.easeCircle)
