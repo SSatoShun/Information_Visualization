@@ -1,4 +1,4 @@
-class BarChart {
+class BarChart_population {
 
       constructor( config, data ) {
           this.config = {
@@ -61,7 +61,7 @@ class BarChart {
           //self.yscale.domain( self.data.map(d => d.label ))
           //.paddingInner(0.3);
 
-          const xmax = d3.max( self.data, d => d.born );
+          const xmax = d3.max( self.data, d => d.population );
           self.yscale.domain( [0,xmax] );
 
           self.render();
@@ -87,8 +87,8 @@ class BarChart {
             //  .on("click",self.color)
             //  .transition().duration(1000)
               .attr("x", d => self.xscale( d.refecturea))
-              .attr("y", d => self.yscale( d.born) )
-              .attr("height", d => self.inner_height-self.yscale(d.born ))
+              .attr("y", d => self.yscale( d.population) )
+              .attr("height", d => self.inner_height-self.yscale(d.population ))
               .attr("width", self.xscale.bandwidth())
               //.attr("fill","yellow")
               ;
@@ -103,7 +103,7 @@ class BarChart {
              .join("text")
              .transition().duration(1000)
              .attr("fill","white")
-             .text(d => d.born)
+             .text(d => d.population)
              .attr("id","axis_value")
               .attr("x",d => self.xscale( d.refecturea) + self.xscale.bandwidth()/self.data.length)
               .attr("y", d => self.yscale(d.refecturea)+20);
@@ -134,13 +134,14 @@ class BarChart {
               .attr("transform","rotate(-90)")
               .attr("dx",-40)
               .attr("dy",0);
-              
+              self.chart.selectAll('#XTitle').remove();
               self.xaxis_group
               //.call( self.xaxis )
               .append("text")
               .attr("x",self.inner_width/2)
               .attr("y",self.config.margin.bottom)
               .text("Food Name")
+              .attr("id","XTitle")
               .attr("dy",2)
               .attr("fill","black")
               .attr("stroke","black")
