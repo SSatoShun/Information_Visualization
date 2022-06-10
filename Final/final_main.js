@@ -81,15 +81,6 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
         console.log( error );
     });
 
-function Filter() {
-    if ( filter.length == 0 ) {
-        scatter_plot.data = input_data;
-    }
-    else {
-        scatter_plot.data = input_data.filter( d => filter.includes( d.species ) );
-    }
-    scatter_plot.update();
-}
 function Filter2() {
     if ( filter.length == 0 ) {
         bar_chart.data = input_data;

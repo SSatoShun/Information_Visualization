@@ -77,7 +77,7 @@ class PieChart {
             .data( self.pie(self.data) )
         .enter();
             //.attr("class","pie");
-
+//’†S
         if(this.text_pie == "pie2"){
             self.pieChart
                 .append('path')
@@ -92,6 +92,7 @@ class PieChart {
                 .attr("fill",function(d){
                     return self.color(d.index);
                 })
+                
                 
                 
                 .on("click",function(ev,d){
@@ -198,37 +199,56 @@ class PieChart {
             //  .text(d => d.value)
             //   .attr("x",d => self.xscale( d.label) + self.xscale.bandwidth()/self.data.length)
             //   .attr("y", d => self.yscale(d.value)+20);
-         self.pieChart
-         //.selectAll("text")
-         //.append("g")
          
-              .append("text")
-              .text(function(d){return d.data.refecturea;})
-              .transition().duration(3000)
-              .attr('text-anchor', 'middle')
-              .attr('font-size','14px')
-              .attr("transform", function(d) {
-                return "translate("+self.arc.centroid(d)+ ")";
-              })
-              .attr("fill","black")
-              .attr("font-size","20px")
-              
-              .attr("id",self.text_pie);
           if(this.text_pie == "pie2"){
 
-          
             self.pieChart
+            .append("text")
+            .text(function(d){return d.data.refecturea;})
+            .transition().duration(3000)
+            .attr('text-anchor', 'middle')
+            .attr('font-size','50px')
+            .attr("transform", function(d) {
+              var c = self.arc.centroid(d);
+              return "translate("+c[0]*1.2+","+ c[1]*1.2 + ")";
+            })
+            .attr("fill","black")
+            .attr("font-size","20px")
+            .attr("font-weight","bold")
+            
+            .attr("id",self.text_pie);
+  
+            // self.pieChart
+            //     .append("text")
+            //     .text(function(d){return d.data.population;})
+            //     .attr('text-anchor', 'middle')
+            //     .attr('font-size','14px')
+            //     .attr("transform", function(d) {
+            //         return "translate("+self.arc.centroid(d)+ ")";
+            //         //return "translate(10)";
+            //     })
+            //     .attr("dy",20)
+            //     .attr("fill","black")
+            //     .attr("id",self.text_pie);
+          }
+          else{
+              if(filter.length > 0 && filter.length < 6){
+                self.pieChart
                 .append("text")
-                .text(function(d){return d.data.population;})
+                .text(function(d){return d.data.refecturea;})
+                .transition().duration(3000)
                 .attr('text-anchor', 'middle')
                 .attr('font-size','14px')
                 .attr("transform", function(d) {
-                    return "translate("+self.arc.centroid(d)+ ")";
-                    //return "translate(10)";
+                  var c = self.arc.centroid(d);
+                  return "translate("+c[0]*1.2+","+ c[1]*1.2 + ")";
                 })
-                .attr("dy",20)
                 .attr("fill","black")
+                .attr("font-size","20px")
+                .attr("font-weight","bold")
+                
                 .attr("id",self.text_pie);
+              }
           }
  
                  

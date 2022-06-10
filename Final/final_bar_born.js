@@ -86,7 +86,7 @@ class BarChart_born {
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Born</div>(value:${d.born})`);
+                    .html(`<div class="tooltip-label">Born</div>(refecturea:${d.refecturea} , value:${d.born})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
@@ -120,6 +120,7 @@ class BarChart_born {
              .attr("fill","white")
              .text(d => d.born)
              .attr("id","axis_value")
+             .attr("font-weight","bold")
               .attr("x",d => self.xscale( d.refecturea) + self.xscale.bandwidth()/self.data.length)
               .attr("y", d => self.yscale(d.refecturea)+20);
 
@@ -155,10 +156,11 @@ class BarChart_born {
               .append("text")
               .attr("x",self.inner_width/2)
               .attr("y",self.config.margin.bottom)
-              .text("Food Name")
+              .text("Prefectures")
               .attr("id","XTitle")
               .attr("dy",2)
               .attr("fill","black")
+              .attr("font-weight","bold")
               .attr("stroke","black")
               .attr("stroke-width",1);
 
@@ -176,6 +178,7 @@ class BarChart_born {
               .attr("dy",-15)
               .attr("fill","black")
               .attr("stroke","black")
+              .attr("font-weight","bold")
               .attr('transform', 'rotate(-90)')
               .attr('text-anchor', 'middle')
               .attr("stroke-width",1);

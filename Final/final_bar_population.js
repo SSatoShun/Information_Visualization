@@ -86,7 +86,7 @@ class BarChart_population {
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Population</div>(value:${d.population})`);
+                    .html(`<div class="tooltip-label">Population</div>(refecturea:${d.refecturea} , value:${d.population})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
