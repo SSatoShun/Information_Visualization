@@ -96,12 +96,12 @@ class PieChart {
                 
                 
                 .on("click",function(ev,d){
-                    let is_active = filter.includes(d.data.refecturea);
+                    let is_active = filter.includes(d.data.prefecturea);
                     if ( is_active ) {
-                        filter = filter.filter( f => f !== d.data.refecturea );
+                        filter = filter.filter( f => f !== d.data.prefecturea );
                     }
                     else {
-                        filter.push( d.data.refecturea );
+                        filter.push( d.data.prefecturea );
                     }
                     Filter2();
                     //d3.selectAll("#"+self.text_pie).remove();
@@ -110,7 +110,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.refecturea} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.prefecturea} , value:${d.data.population})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -160,7 +160,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , refecturea:${d.data.refecturea} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , prefecturea:${d.data.prefecturea} , value:${d.data.population})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -204,7 +204,7 @@ class PieChart {
 
             self.pieChart
             .append("text")
-            .text(function(d){return d.data.refecturea;})
+            .text(function(d){return d.data.prefecturea;})
             .transition().duration(3000)
             .attr('text-anchor', 'middle')
             .attr('font-size','50px')
@@ -235,7 +235,7 @@ class PieChart {
               if(filter.length > 0 && filter.length < 6){
                 self.pieChart
                 .append("text")
-                .text(function(d){return d.data.refecturea;})
+                .text(function(d){return d.data.prefecturea;})
                 .transition().duration(3000)
                 .attr('text-anchor', 'middle')
                 .attr('font-size','14px')

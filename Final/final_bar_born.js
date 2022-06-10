@@ -56,7 +56,7 @@ class BarChart_born {
   
       update() {
           let self = this;
-          self.xscale.domain( self.data.map(d => d.refecturea ))
+          self.xscale.domain( self.data.map(d => d.prefecturea ))
           .paddingInner(0.3);
           //self.yscale.domain( self.data.map(d => d.label ))
           //.paddingInner(0.3);
@@ -86,7 +86,7 @@ class BarChart_born {
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Born</div>(refecturea:${d.refecturea} , value:${d.born})`);
+                    .html(`<div class="tooltip-label">Born</div>(prefecturea:${d.prefecturea} , value:${d.born})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
@@ -101,7 +101,7 @@ class BarChart_born {
               .transition().duration(1000)
             //  .on("click",self.color)
             //  .transition().duration(1000)
-              .attr("x", d => self.xscale( d.refecturea))
+              .attr("x", d => self.xscale( d.prefecturea))
               .attr("y", d => self.yscale( d.born) )
               .attr("height", d => self.inner_height-self.yscale(d.born ))
               .attr("width", self.xscale.bandwidth())
@@ -121,8 +121,8 @@ class BarChart_born {
              .text(d => d.born)
              .attr("id","axis_value")
              .attr("font-weight","bold")
-              .attr("x",d => self.xscale( d.refecturea) + self.xscale.bandwidth()/self.data.length)
-              .attr("y", d => self.yscale(d.refecturea)+20);
+              .attr("x",d => self.xscale( d.prefecturea) + self.xscale.bandwidth()/self.data.length)
+              .attr("y", d => self.yscale(d.prefecturea)+20);
 
               
         
