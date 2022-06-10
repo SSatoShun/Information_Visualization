@@ -10,20 +10,20 @@ let filter = [];
 d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.csv")
     .then( data => {
         input_data = data;
-        input_data.forEach( d => { d.prefecturea = d.prefecturea; d.wage = +d.wage;d.population = +d.population;d.born = d.born;d.area_num = +d.area_num});
+        input_data.forEach( d => { d.prefecture = d.prefecture; d.wage = +d.wage;d.population = +d.population;d.born = d.born;d.area_num = +d.area_num});
 
         var config = {
             parent: '#drawing_region',
             width: 256*4,
             height: 256*4,
             radius : Math.min(256,256)/2,
-            margin: {top:30, right:20, bottom:60, left:30}
+            margin: {top:80, right:20, bottom:60, left:30}
         };
         var config2 = {
             parent: '#drawing_region2',
             width: 256*5,
             height: 256*4,
-            margin: {top:30, right:20, bottom:100, left:80}
+            margin: {top:30, right:20, bottom:100, left:180}
         };
         var config3 = {
             parent: '#drawing_region3',
@@ -60,14 +60,14 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
     d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_separate.csv")
     .then( data => {
         input_data2 = data;
-        input_data2.forEach( d => { d.prefecturea = d.prefecturea;d.population = +d.population});
+        input_data2.forEach( d => { d.prefecture = d.prefecture;d.population = +d.population});
 
         var config = {
             parent: '#drawing_region',
             width: 256*4,
             height: 256*4,
             radius : Math.min(256,256)/2,
-            margin: {top:30, right:20, bottom:60, left:30}
+            margin: {top:80, right:20, bottom:60, left:30}
         };
 
         // const pie_chart = new PieChart( config, data ,inner_r,outer_r);

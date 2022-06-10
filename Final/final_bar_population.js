@@ -51,12 +51,12 @@ class BarChart_population {
             .attr("stroke","black")
             .attr("font-weight",20)
             .attr("stroke-width",1.8)
-            .text("Bar Chart");
+            .text("Population of each Prefecture");
       }
   
       update() {
           let self = this;
-          self.xscale.domain( self.data.map(d => d.prefecturea ))
+          self.xscale.domain( self.data.map(d => d.prefecture ))
           .paddingInner(0.3);
           //self.yscale.domain( self.data.map(d => d.label ))
           //.paddingInner(0.3);
@@ -86,7 +86,7 @@ class BarChart_population {
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Population</div>(prefecturea:${d.prefecturea} , value:${d.population})`);
+                    .html(`<div class="tooltip-label">Population</div>(prefecture:${d.prefecture} , value:${d.population})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
@@ -101,7 +101,7 @@ class BarChart_population {
               .transition().duration(1000)
             //  .on("click",self.color)
             //  .transition().duration(1000)
-              .attr("x", d => self.xscale( d.prefecturea))
+              .attr("x", d => self.xscale( d.prefecture))
               .attr("y", d => self.yscale( d.population) )
               .attr("height", d => self.inner_height-self.yscale(d.population ))
               .attr("width", self.xscale.bandwidth())
@@ -120,8 +120,8 @@ class BarChart_population {
              .attr("fill","white")
              .text(d => d.population)
              .attr("id","axis_value")
-              .attr("x",d => self.xscale( d.prefecturea) + self.xscale.bandwidth()/self.data.length)
-              .attr("y", d => self.yscale(d.prefecturea)+20);
+              .attr("x",d => self.xscale( d.prefecture) + self.xscale.bandwidth()/self.data.length)
+              .attr("y", d => self.yscale(d.prefecture)+20);
 
               
         
@@ -155,11 +155,12 @@ class BarChart_population {
               .append("text")
               .attr("x",self.inner_width/2)
               .attr("y",self.config.margin.bottom)
-              .text("Food Name")
+              .text("Prefectures")
               .attr("id","XTitle")
-              .attr("dy",2)
+              //.attr("dy",2)
               .attr("fill","black")
               .attr("stroke","black")
+              .attr("font-weight","bold")
               .attr("stroke-width",1);
 
 
@@ -172,11 +173,12 @@ class BarChart_population {
               .attr("x",-self.config.margin.right-self.inner_height/2)
               .attr("y",-self.config.margin.left/2)
               .attr("font-size", "25px")
-              .text("Value")
-              .attr("dy",-15)
+              .text("Population")
+              .attr("dy",-50)
               .attr("fill","black")
               .attr("stroke","black")
               .attr('transform', 'rotate(-90)')
+              .attr("font-weight","bold")
               .attr('text-anchor', 'middle')
               .attr("stroke-width",1);
 

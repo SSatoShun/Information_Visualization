@@ -33,14 +33,15 @@ class PieChart {
 
       
          self.svg.append("text")
-           .attr("x", self.inner_width/2-20)
-           .attr("y",self.inner_height/4)
+           .attr("x", self.inner_width/2-70)
+           .attr("y",self.inner_height/8)
            .attr("font-size","24px")
            .attr("fill","black")
            .attr("stroke","black")
            .attr("font-weight",20)
            .attr("stroke-width",1.6)
-           .text("Pie Chart")
+           .text("Area of each Prefecture")
+           .attr("dy" ,"-93px")
            .attr("id","title");
 
         self.pie = d3.pie();
@@ -96,12 +97,12 @@ class PieChart {
                 
                 
                 .on("click",function(ev,d){
-                    let is_active = filter.includes(d.data.prefecturea);
+                    let is_active = filter.includes(d.data.prefecture);
                     if ( is_active ) {
-                        filter = filter.filter( f => f !== d.data.prefecturea );
+                        filter = filter.filter( f => f !== d.data.prefecture );
                     }
                     else {
-                        filter.push( d.data.prefecturea );
+                        filter.push( d.data.prefecture );
                     }
                     Filter2();
                     //d3.selectAll("#"+self.text_pie).remove();
@@ -110,7 +111,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.prefecturea} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.prefecture} , value:${d.data.population})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -160,7 +161,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , prefecturea:${d.data.prefecturea} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , prefecture:${d.data.prefecture} , value:${d.data.population})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -204,7 +205,7 @@ class PieChart {
 
             self.pieChart
             .append("text")
-            .text(function(d){return d.data.prefecturea;})
+            .text(function(d){return d.data.prefecture;})
             .transition().duration(3000)
             .attr('text-anchor', 'middle')
             .attr('font-size','50px')
@@ -235,7 +236,7 @@ class PieChart {
               if(filter.length > 0 && filter.length < 6){
                 self.pieChart
                 .append("text")
-                .text(function(d){return d.data.prefecturea;})
+                .text(function(d){return d.data.prefecture;})
                 .transition().duration(3000)
                 .attr('text-anchor', 'middle')
                 .attr('font-size','14px')
