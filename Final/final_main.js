@@ -10,7 +10,7 @@ let filter = [];
 d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.csv")
     .then( data => {
         input_data = data;
-        input_data.forEach( d => { d.prefecture = d.prefecture; d.wage = +d.wage;d.population = +d.population;d.born = d.born;d.area_num = +d.area_num; d.menseki = +d.menseki});
+        input_data.forEach( d => { d.prefecture = d.prefecture; d.wage = +d.wage;d.population = +d.population;d.born = d.born;d.region_num = +d.region_num; d.area = +d.area});
 
         var config = {
             parent: '#drawing_region',
@@ -47,7 +47,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
         bar_chart2 = new BarChart_born( config3, input_data);
         //pie_chart2 = new PieChart( config, input_data,10,100,"pie2" );
         d3.selectAll("#choice_announce").style("font-size","60px");
-        document.getElementById("choice_announce").innerHTML = "You have no choice. All date are displayed!";
+        document.getElementById("choice_announce").innerHTML = "You have no choice. All data are displayed!";
         pie_chart.update();
         bar_chart.update();
         bar_chart2.update();
@@ -60,7 +60,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
     d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_separate.csv")
     .then( data => {
         input_data2 = data;
-        input_data2.forEach( d => { d.prefecture = d.prefecture;d.menseki = +d.menseki});
+        input_data2.forEach( d => { d.prefecture = d.prefecture;d.area = +d.area});
 
         var config = {
             parent: '#drawing_region',
@@ -86,13 +86,13 @@ function Filter2() {
         bar_chart.data = input_data;
         bar_chart2.data = input_data;
         pie_chart.data = input_data;
-        document.getElementById("choice_announce").innerHTML = "You have no choice. All date are displayed!";
+        document.getElementById("choice_announce").innerHTML = "You have no choice. All data are displayed!";
         
     }
     else {
-        bar_chart.data = input_data.filter( d => filter.includes( d.area ) );
-        bar_chart2.data = input_data.filter( d => filter.includes( d.area ) );
-        pie_chart.data = input_data.filter( d => filter.includes( d.area ) );
+        bar_chart.data = input_data.filter( d => filter.includes( d.region ) );
+        bar_chart2.data = input_data.filter( d => filter.includes( d.region ) );
+        pie_chart.data = input_data.filter( d => filter.includes( d.region ) );
         document.getElementById("choice_announce").innerHTML = "Your choice is ("+filter+") !";
     }
     bar_chart.update();

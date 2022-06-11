@@ -57,7 +57,7 @@ class PieChart {
         let self = this;
         
         self.pie
-            .value(d => d.menseki)
+            .value(d => d.area)
             .sort(null);
 
         self.arc
@@ -111,7 +111,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Area</div>(area:${d.data.prefecture} , value:${d.data.menseki})`);
+                        .html(`<div class="tooltip-label">Area</div>(region:${d.data.prefecture} , value:${d.data.area} km^2)`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -149,19 +149,19 @@ class PieChart {
                 .attr("id",self.text_pie)
                 //"#DC3912", "#3366CC", "#109618", "#FF9900", "#990099","#998732"
                 .attr("fill",function(d,i){
-                    if(d.data.area_num == 1)return "#F4F6AA";
-                    else if(d.data.area_num==2)return "#D4AB92";
-                    else if(d.data.area_num==3)return "#DBAEEB";
-                    else if(d.data.area_num==4)return "#92C4D4";
-                    else if(d.data.area_num==5)return "#E3F6D6";
-                    else if(d.data.area_num==6)return "#998732";
+                    if(d.data.region_num == 1)return "#F4F6AA";
+                    else if(d.data.region_num==2)return "#D4AB92";
+                    else if(d.data.region_num==3)return "#DBAEEB";
+                    else if(d.data.region_num==4)return "#92C4D4";
+                    else if(d.data.region_num==5)return "#E3F6D6";
+                    else if(d.data.region_num==6)return "#998732";
     
                     //return self.color(d.data.area_num);
                 })
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Area</div>(area:${d.data.area} , prefecture:${d.data.prefecture} , value:${d.data.menseki})`);
+                        .html(`<div class="tooltip-label">Area</div>(region:${d.data.region} , prefecture:${d.data.prefecture} , value:${d.data.area} km^2)`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;

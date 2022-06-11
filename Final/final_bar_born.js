@@ -74,19 +74,19 @@ class BarChart_born {
               .data(self.data)
               .join("rect")
               .attr("fill",function(d,i){
-                if(d.area_num == 1)return "#F4F6AA";
-                else if(d.area_num==2)return "#D4AB92";
-                else if(d.area_num==3)return "#DBAEEB";
-                else if(d.area_num==4)return "#92C4D4";
-                else if(d.area_num==5)return "#E3F6D6";
-                else if(d.area_num==6)return "#998732";
+                if(d.region_num == 1)return "#F4F6AA";
+                else if(d.region_num==2)return "#D4AB92";
+                else if(d.region_num==3)return "#DBAEEB";
+                else if(d.region_num==4)return "#92C4D4";
+                else if(d.region_num==5)return "#E3F6D6";
+                else if(d.region_num==6)return "#998732";
 
                 //return self.color(d.data.area_num);
             })
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">Birthrate</div>(prefecture:${d.prefecture} , value:${d.born})`);
+                    .html(`<div class="tooltip-label">Birthrate</div>(region:${d.region} , prefecture:${d.prefecture} , value:${d.born})`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
