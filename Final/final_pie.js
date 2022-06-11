@@ -57,7 +57,7 @@ class PieChart {
         let self = this;
         
         self.pie
-            .value(d => d.population)
+            .value(d => d.menseki)
             .sort(null);
 
         self.arc
@@ -111,7 +111,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.prefecture} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Area</div>(area:${d.data.prefecture} , value:${d.data.menseki})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;
@@ -161,7 +161,7 @@ class PieChart {
                 .on('mouseover', (e,d) => {
                     d3.select('#tooltip')
                         .style('opacity', 1)
-                        .html(`<div class="tooltip-label">Population</div>(area:${d.data.area} , prefecture:${d.data.prefecture} , value:${d.data.population})`);
+                        .html(`<div class="tooltip-label">Area</div>(area:${d.data.area} , prefecture:${d.data.prefecture} , value:${d.data.menseki})`);
                 })
                 .on('mousemove', (e) => {
                     const padding = 10;

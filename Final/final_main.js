@@ -60,7 +60,7 @@ d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_data.c
     d3.csv("https://ssatoshun.github.io/Information_Visualization/Final/final_separate.csv")
     .then( data => {
         input_data2 = data;
-        input_data2.forEach( d => { d.prefecture = d.prefecture;d.menseki_sum = +d.menseki_sum});
+        input_data2.forEach( d => { d.prefecture = d.prefecture;d.menseki = +d.menseki});
 
         var config = {
             parent: '#drawing_region',
